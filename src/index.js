@@ -15,9 +15,7 @@ const users = {
   haleemah: { name: "haleemah", age: (Math.random() * 100) | 1 },
 };
 
-const sessions = {
-  // "878w": { name: "hwh", age: 32 },
-};
+const sessions = {};
 
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -36,12 +34,18 @@ app.use((req, res, next) => {
   }
   sessions[sessionId] = sessions[sessionId] || {};
   req.session = sessions[sessionId];
-  console.log("middleWare");
   req.session = sessions[sessionId];
-  console.log("sessions <===> ", sessions);
+  req.session.destroy = function destroy() {
+    res.header("set-cookie", `sessionId=${sessionId};max-age=0`);
+    delete sessions[sessionId];
+  };
   next();
 });
 
+app.get("/logout", (req, res) => {
+  req.session.destroy();
+  res.redirect("/");
+});
 app.get("/", (req, res) => {
   const resTemp = `
 
@@ -53,7 +57,9 @@ ${
       req.session.user.name +
       " and I am " +
       req.session.user.age +
-      " years old</h4>"
+      " years old</h4>" +
+      '\
+  <a href="/logout">Logout</a>'
     : "<form action='/login/fattylee' method='post'> \
       <button>Login as fattylee</button> \
     </form><form action='/login/haleemah' method='post'> \
@@ -83,45 +89,3 @@ app.get("/home", (req, res) => {
   res.sendFile(path.resolve(process.cwd(), "public/home.html"));
 });
 
-const letter = "fattyleE hello";
-const countVowel = (word) => {
-  console.time("baba");
-  const vowels = "aeiou";
-  word = word.toLowerCase();
-  const res = word.split("").reduce((count, l) => {
-    if (vowels.includes(l)) {
-      count++;
-    }
-    return count;
-  }, 0);
-  console.timeEnd("baba");
-  return res;
-};
-const countVowel2 = (word) => {
-  console.time("fatty");
-  word = word.toLowerCase();
-  const vowels = { a: "a", e: "e", i: "i", o: "o", u: "u" };
-  const res = word.split("").reduce((count, l) => {
-    if (vowels[l]) {
-      count++;
-    }
-    return count;
-  }, 0);
-  console.timeEnd("fatty");
-  return res;
-};
-
-const countVowel3 = (words) => {
-  console.time("match");
-  const matches = words.match(/[aeiou]/gi);
-  if (matches) {
-    console.timeEnd("match");
-    return matches.length;
-  }
-  console.timeEnd("match");
-  return 0;
-};
-
-console.log(countVowel(letter));
-console.log(countVowel2(letter));
-console.log(countVowel3(letter));
