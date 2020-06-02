@@ -7,7 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "babel src -d code -w ",
     "start:dev": "nodemon code -w code",
-    "start:all": "concurrently 'yarn start:dev' 'yarn build'"
+    "start:all": "concurrently 'yarn start:dev' 'yarn build'",
+    "prestart": "babel src -d code",
+    "start": "node code"
   },
   "keywords": [],
   "author": "",

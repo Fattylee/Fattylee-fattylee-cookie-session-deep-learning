@@ -1,0 +1,17 @@
+Git is a version control tool. It allows users to keep a good track of the work while using it. it also promotes easy collaboration between teams of different sizes when used in conjunction with a central system such as Github, Gitlab, and Bitbucket to mention a few.
+
+
+
+Getting started with git. It is best to start from a central repository such as Github. Create a new repository, give a description, add a README.md file for more context on the project at hand, then adds a license if necessary. with all these easy to follow steps the repository is good to go. The next big step is to clone the just created repo to your local computer and start working on your project.
+
+for a complete beginner's guide visit Git-Github-Essensial-Gude .
+
+
+
+With all that said, My favorite technique or Git workflow is to create a new branch from the base branch (master) when working on a new task/idea which can be done with this command git checkout -b newTaskName. As I work on the task I ensure to make a small or popularly known as atomic commits, these atomic commits are important because it is easier to traverse back in time to a specific commit(change). once I complete my task then I push this branch to the central Repo on Github with git push origin newTaskName. Next up I will raise a pull request on Github so that my team-mate can review my changes before merging the new changes into the base branch. 
+
+
+
+This workflow had been really helpful when working on a joint and individual project because it helps lower the risk of introducing bugs into the master branch.
+
+https://lucid.blog/fattyleeremod/post/git-and-github-my-favourite-git-workflow-5cb
