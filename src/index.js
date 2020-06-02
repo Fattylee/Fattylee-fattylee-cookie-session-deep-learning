@@ -20,24 +20,22 @@ const sessions = {};
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use((req, res, next) => {
-  const cookies = req.headers.cookie;
-  const cookie = cookies?.split("; ").reduce((acc, pair) => {
+  const cookie = req.headers.cookie?.split(/;\s*/gi).reduce((cookie, pair) => {
     const [key, value] = pair.split("=");
-    acc[key] = value;
-    return acc;
+    cookie[key] = value;
+    return cookie;
   }, {});
 
-  let sessionId = cookie?.["sessionId"];
+  let sessionId = cookie?.sessionId;
   if (!sessionId) {
     sessionId = Math.random();
-    res.set("set-cookie", `sessionId=${sessionId}`);
+    res.header("SET-cookie", `sessionId=${sessionId}`);
   }
   sessions[sessionId] = sessions[sessionId] || {};
   req.session = sessions[sessionId];
-  req.session = sessions[sessionId];
-  req.session.destroy = function destroy() {
-    res.header("set-cookie", `sessionId=${sessionId};max-age=0`);
+  req.session.destroy = () => {
     delete sessions[sessionId];
+    res.set("set-cookiE", "sessionId=;max-age=0");
   };
   next();
 });
