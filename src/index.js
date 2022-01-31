@@ -80,10 +80,15 @@ app.post("/login/:user", (req, res) => {
 });
 
 app.get("/json", (req, res) => {
-  res.json({ message: "iLoveCodig", status: "success" });
+  res.json({ message: "iLoveCoding", status: "success" });
 });
 
 app.get("/home", (req, res) => {
   res.sendFile(path.resolve(process.cwd(), "public/home.html"));
 });
 
+const abdullah = {
+  age: 2,
+  gender: "male",
+};
+console.log(abdullah);
